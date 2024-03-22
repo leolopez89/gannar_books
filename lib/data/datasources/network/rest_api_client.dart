@@ -17,6 +17,11 @@ abstract class RestApiClient {
   ///
   /// Devuelve una instancia de [BooksDto] que contiene un listado de [BookDto]
   Future<BooksDto> searchBooks(String query, {int page = 1});
+
+  /// Método para obtener los datos de un libro a partir de su [isbn13]
+  ///
+  /// Devuelve una instancia de [BookDto]
+  Future<BookDto> getBookDetails(String isbn13);
 }
 
 /// IMplementación de [RestApiClient] para el acceso a la red
@@ -37,6 +42,14 @@ class RestApiClientImpl implements RestApiClient {
     final json = await load(resource: resource);
     final books = BooksDto.fromJson(json);
     return books;
+  }
+
+  @override
+  Future<BookDto> getBookDetails(String isbn13) async {
+    String resource = "${ApiEndoints.books}/$isbn13";
+    final json = await load(resource: resource);
+    final book = BookDto.fromJson(json);
+    return book;
   }
 
   /// Método genérico para el acceso la red

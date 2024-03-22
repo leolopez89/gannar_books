@@ -63,6 +63,15 @@ class MockLocalStorage extends _i1.Mock implements _i3.LocalStorage {
       ) as _i4.Future<_i2.UserDto>);
 
   @override
+  bool isLogged() => (super.noSuchMethod(
+        Invocation.method(
+          #isLogged,
+          [],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
   _i4.Future<bool> verifyUser(_i2.UserDto? user) => (super.noSuchMethod(
         Invocation.method(
           #verifyUser,
@@ -79,4 +88,22 @@ class MockLocalStorage extends _i1.Mock implements _i3.LocalStorage {
         ),
         returnValue: _i4.Future<bool>.value(false),
       ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<List<String>> getSavedSearch() => (super.noSuchMethod(
+        Invocation.method(
+          #getSavedSearch,
+          [],
+        ),
+        returnValue: _i4.Future<List<String>>.value(<String>[]),
+      ) as _i4.Future<List<String>>);
+
+  @override
+  _i4.Future<List<String>> saveSearch(String? query) => (super.noSuchMethod(
+        Invocation.method(
+          #saveSearch,
+          [query],
+        ),
+        returnValue: _i4.Future<List<String>>.value(<String>[]),
+      ) as _i4.Future<List<String>>);
 }

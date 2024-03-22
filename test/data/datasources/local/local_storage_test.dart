@@ -72,4 +72,42 @@ void main() {
     verify(mockSharedPreferences.remove(any)).called(1);
     verifyNoMoreInteractions(mockSharedPreferences);
   });
+
+  test('isLogged, should return a valid answer', () async {
+    when(mockSharedPreferences.getString(any)).thenAnswer((_) => "");
+
+    final result = localStorage.isLogged();
+
+    expect(result, false);
+
+    verify(mockSharedPreferences.getString(any)).called(1);
+    verifyNoMoreInteractions(mockSharedPreferences);
+  });
+
+  test('getSavedSearch, should return a valid answer', () async {
+    when(mockSharedPreferences.getStringList(any))
+        .thenAnswer((_) => testStringList);
+
+    final result = await localStorage.getSavedSearch();
+
+    expect(result.isNotEmpty, true);
+
+    verify(mockSharedPreferences.getStringList(any)).called(1);
+    verifyNoMoreInteractions(mockSharedPreferences);
+  });
+
+  test('saveSearch, should return a valid answer', () async {
+    when(mockSharedPreferences.getStringList(any))
+        .thenAnswer((_) => testStringList);
+    when(mockSharedPreferences.setStringList(any, any))
+        .thenAnswer((_) async => true);
+
+    final result = await localStorage.saveSearch("query");
+
+    expect(result.length, 3);
+
+    verify(mockSharedPreferences.getStringList(any)).called(1);
+    verify(mockSharedPreferences.setStringList(any, any)).called(1);
+    verifyNoMoreInteractions(mockSharedPreferences);
+  });
 }

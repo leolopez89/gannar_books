@@ -19,4 +19,25 @@ abstract class BooksRepository {
   /// Si se produce una excepción durante el proceso se devuelve el mensaje en
   /// el contenido de [ErrorState]
   Future<Either<ErrorState, Books>> searchBooks(String query, {int page = 1});
+
+  /// Obtiene el detalle de un [Book] a partir de su [isbn13].
+  ///
+  /// Devuelve una instancia de [Book]
+  /// Si se produce una excepción durante el proceso se devuelve el mensaje en
+  /// el contenido de [ErrorState]
+  Future<Either<ErrorState, Book>> getBookDetails(String isbn13);
+
+  /// Guarda el texto [query] de una búsqueda en el almacenamiento local.
+  ///
+  /// Devuelve la lista de búsquedas almacenadas hasta el momento
+  /// Si se produce una excepción durante el proceso se devuelve el mensaje en
+  /// el contenido de [ErrorState]
+  Future<Either<ErrorState, List<String>>> saveSearch(String query);
+
+  /// Devielve el listado dde búsquedas almacenadas localmente.
+  ///
+  /// Devuelve la lista de búsquedas almacenadas hasta el momento
+  /// Si se produce una excepción durante el proceso se devuelve el mensaje en
+  /// el contenido de [ErrorState]
+  Future<Either<ErrorState, List<String>>> getSavedSearch();
 }

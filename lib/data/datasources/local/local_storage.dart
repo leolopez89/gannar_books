@@ -13,6 +13,9 @@ abstract class LocalStorage {
   /// Permite recuperar los datos del usuario del almacenamiento local
   Future<UserDto> getLoggedUser();
 
+  /// Verifica si hay un usuario en el almacenamiento local
+  bool isLogged();
+
   /// Verifica si los datos del usuario coinciden con los del almacenamiento
   /// local.
   ///
@@ -21,6 +24,14 @@ abstract class LocalStorage {
 
   /// Borra los datos del usuario del almacenamiento local
   Future<bool> logout();
+
+  /// Recupera el listado de búsquedas del almacenamiento local.
+  Future<List<String>> getSavedSearch();
+
+  /// Guarda la búsqueda en el almacenamiento local
+  ///
+  /// Devuelve la lista actualizada de búsquedas guardadas
+  Future<List<String>> saveSearch(String query);
 }
 
 /// Implementación concreta del almacenamiento de datos locales
@@ -54,5 +65,30 @@ class LocalStorageImpl implements LocalStorage {
   Future<bool> logout() {
     final result = sharedPreferences.remove(SPKeys.userKey);
     return result;
+  }
+
+  @override
+  bool isLogged() {
+    final savedUser = sharedPreferences.getString(SPKeys.userKey) ?? "";
+    return savedUser.isNotEmpty;
+  }
+
+  @override
+  Future<List<String>> getSavedSearch() async {
+    final savedSearch =
+        sharedPreferences.getStringList(SPKeys.savedSearchKey) ?? <String>[];
+    return savedSearch;
+  }
+
+  @override
+  Future<List<String>> saveSearch(String query) async {
+    List<String> savedSearch =
+        sharedPreferences.getStringList(SPKeys.savedSearchKey) ?? <String>[];
+    savedSearch.add(query);
+    savedSearch = savedSearch.toSet().toList();
+    if (savedSearch.length > 5) savedSearch.removeAt(0);
+
+    sharedPreferences.setStringList(SPKeys.savedSearchKey, savedSearch);
+    return savedSearch;
   }
 }

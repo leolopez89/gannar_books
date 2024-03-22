@@ -19,8 +19,8 @@ class BooksDto {
 
   BooksDto.fromJson(Map<String, dynamic> json)
       : error = json['error'] ?? "0",
-        total = int.tryParse(json['total']) ?? 0,
-        page = int.tryParse(json['page']) ?? 1,
+        total = int.tryParse(json['total'] ?? "0") ?? 0,
+        page = int.tryParse(json['page'] ?? "1") ?? 1,
         books = (json['books'] ?? [])
             .map((bookJson) => BookDto.fromJson(bookJson))
             .toList()

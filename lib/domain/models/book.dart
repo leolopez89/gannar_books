@@ -38,6 +38,23 @@ class Book {
     required this.url,
   });
 
+  Book.empty()
+      : error = "",
+        title = "",
+        subtitle = "",
+        authors = "",
+        publisher = "",
+        language = "",
+        isbn10 = "",
+        isbn13 = "",
+        pages = "",
+        year = "",
+        rating = "",
+        desc = "",
+        price = "",
+        image = "",
+        url = "";
+
   @override
   int get hashCode => isbn13.hashCode;
 

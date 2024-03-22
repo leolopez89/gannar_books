@@ -16,4 +16,10 @@ class Books {
     required this.page,
     required this.books,
   });
+
+  Books.empty()
+      : error = "",
+        page = 1,
+        total = 0,
+        books = [];
 }

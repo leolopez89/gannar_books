@@ -32,6 +32,7 @@ class LoginPresenter {
   Future<void> login() async {
     if (!view.isValidLogin()) return;
 
+    await loginProvider.createUser();
     await loginProvider.login();
     if (loginProvider.isAuthenticated) {
       view.onLoginSuccess();

@@ -58,3 +58,5 @@ final testBooks = BooksDto(error: "0", total: 2, page: 1, books: [
 ]);
 
 final testUser = UserDto(username: "username", password: "password");
+
+final testStringList = ["dart", "flutter"];

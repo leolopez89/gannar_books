@@ -3,11 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i6;
 
+import 'package:gannar_books/data/datasources/local/local_storage.dart' as _i7;
 import 'package:gannar_books/data/datasources/network/rest_api_client.dart'
-    as _i3;
+    as _i5;
+import 'package:gannar_books/data/dto/book_dto.dart' as _i3;
 import 'package:gannar_books/data/dto/books_dto.dart' as _i2;
+import 'package:gannar_books/data/dto/user_dto.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -31,31 +34,51 @@ class _FakeBooksDto_0 extends _i1.SmartFake implements _i2.BooksDto {
         );
 }
 
+class _FakeBookDto_1 extends _i1.SmartFake implements _i3.BookDto {
+  _FakeBookDto_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeUserDto_2 extends _i1.SmartFake implements _i4.UserDto {
+  _FakeUserDto_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [RestApiClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRestApiClient extends _i1.Mock implements _i3.RestApiClient {
+class MockRestApiClient extends _i1.Mock implements _i5.RestApiClient {
   MockRestApiClient() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.BooksDto> getNewBooks() => (super.noSuchMethod(
+  _i6.Future<_i2.BooksDto> getNewBooks() => (super.noSuchMethod(
         Invocation.method(
           #getNewBooks,
           [],
         ),
-        returnValue: _i4.Future<_i2.BooksDto>.value(_FakeBooksDto_0(
+        returnValue: _i6.Future<_i2.BooksDto>.value(_FakeBooksDto_0(
           this,
           Invocation.method(
             #getNewBooks,
             [],
           ),
         )),
-      ) as _i4.Future<_i2.BooksDto>);
+      ) as _i6.Future<_i2.BooksDto>);
 
   @override
-  _i4.Future<_i2.BooksDto> searchBooks(
+  _i6.Future<_i2.BooksDto> searchBooks(
     String? query, {
     int? page = 1,
   }) =>
@@ -65,7 +88,7 @@ class MockRestApiClient extends _i1.Mock implements _i3.RestApiClient {
           [query],
           {#page: page},
         ),
-        returnValue: _i4.Future<_i2.BooksDto>.value(_FakeBooksDto_0(
+        returnValue: _i6.Future<_i2.BooksDto>.value(_FakeBooksDto_0(
           this,
           Invocation.method(
             #searchBooks,
@@ -73,5 +96,98 @@ class MockRestApiClient extends _i1.Mock implements _i3.RestApiClient {
             {#page: page},
           ),
         )),
-      ) as _i4.Future<_i2.BooksDto>);
+      ) as _i6.Future<_i2.BooksDto>);
+
+  @override
+  _i6.Future<_i3.BookDto> getBookDetails(String? isbn13) => (super.noSuchMethod(
+        Invocation.method(
+          #getBookDetails,
+          [isbn13],
+        ),
+        returnValue: _i6.Future<_i3.BookDto>.value(_FakeBookDto_1(
+          this,
+          Invocation.method(
+            #getBookDetails,
+            [isbn13],
+          ),
+        )),
+      ) as _i6.Future<_i3.BookDto>);
+}
+
+/// A class which mocks [LocalStorage].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLocalStorage extends _i1.Mock implements _i7.LocalStorage {
+  MockLocalStorage() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<bool> saveUser(_i4.UserDto? user) => (super.noSuchMethod(
+        Invocation.method(
+          #saveUser,
+          [user],
+        ),
+        returnValue: _i6.Future<bool>.value(false),
+      ) as _i6.Future<bool>);
+
+  @override
+  _i6.Future<_i4.UserDto> getLoggedUser() => (super.noSuchMethod(
+        Invocation.method(
+          #getLoggedUser,
+          [],
+        ),
+        returnValue: _i6.Future<_i4.UserDto>.value(_FakeUserDto_2(
+          this,
+          Invocation.method(
+            #getLoggedUser,
+            [],
+          ),
+        )),
+      ) as _i6.Future<_i4.UserDto>);
+
+  @override
+  bool isLogged() => (super.noSuchMethod(
+        Invocation.method(
+          #isLogged,
+          [],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i6.Future<bool> verifyUser(_i4.UserDto? user) => (super.noSuchMethod(
+        Invocation.method(
+          #verifyUser,
+          [user],
+        ),
+        returnValue: _i6.Future<bool>.value(false),
+      ) as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> logout() => (super.noSuchMethod(
+        Invocation.method(
+          #logout,
+          [],
+        ),
+        returnValue: _i6.Future<bool>.value(false),
+      ) as _i6.Future<bool>);
+
+  @override
+  _i6.Future<List<String>> getSavedSearch() => (super.noSuchMethod(
+        Invocation.method(
+          #getSavedSearch,
+          [],
+        ),
+        returnValue: _i6.Future<List<String>>.value(<String>[]),
+      ) as _i6.Future<List<String>>);
+
+  @override
+  _i6.Future<List<String>> saveSearch(String? query) => (super.noSuchMethod(
+        Invocation.method(
+          #saveSearch,
+          [query],
+        ),
+        returnValue: _i6.Future<List<String>>.value(<String>[]),
+      ) as _i6.Future<List<String>>);
 }
