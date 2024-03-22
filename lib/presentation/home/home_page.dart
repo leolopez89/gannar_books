@@ -41,7 +41,7 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
 
   User _user = User.empty();
 
-  late HomePresenter presenter;
+  HomePresenter? presenter;
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       presenter =
           HomePresenter(homeProvider: context.read<HomeProvider>(), view: this);
-      presenter.loadData();
+      presenter?.loadData();
     });
   }
 
@@ -58,7 +58,6 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (context, provider, child) {
-        if (_isLoading) return const Center(child: CircularProgressIndicator());
         String name = _user.username.isNotEmpty ? ", ${_user.username}" : "";
         return SingleChildScrollView(
           child: Column(
@@ -84,19 +83,22 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
                       child: LayoutBuilder(
                         builder: (context, constraints) => RawAutocomplete(
                           optionsBuilder: (TextEditingValue textEditingValue) {
-                            return presenter.searches;
+                            return presenter?.searches ?? <String>[];
                           },
                           fieldViewBuilder: (_, controller, focusNode, submit) {
                             return TextFormField(
                               focusNode: focusNode,
                               controller: controller,
                               key: const Key('username'),
-                              onChanged: presenter.updateSearch,
+                              onChanged: presenter?.updateSearch,
                               decoration: appInputDecoration(
                                 labelText: "Buscar",
-                                prefixIcon: const Icon(Icons.search),
+                                prefixIcon: const Icon(
+                                  Icons.search,
+                                  color: AppColors.baseColor,
+                                ),
                               ),
-                              onFieldSubmitted: (s) => presenter.search(),
+                              onFieldSubmitted: (s) => presenter?.search(),
                               textInputAction: TextInputAction.search,
                             );
                           },
@@ -123,7 +125,7 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
                                         title: Text(e),
                                         onTap: () {
                                           onSelected(e);
-                                          presenter.updateSearch(e);
+                                          presenter?.updateSearch(e);
                                         },
                                       );
                                     }).toList(),
@@ -147,7 +149,7 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
                       ),
                       clipBehavior: Clip.hardEdge,
                       child: IconButton(
-                        onPressed: presenter.search,
+                        onPressed: presenter?.search,
                         icon: const Icon(Icons.search, color: Colors.white),
                       ),
                     )
@@ -164,7 +166,7 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
                       Padding(
                         padding: const EdgeInsets.only(left: 16),
                         child: IconButton(
-                          onPressed: presenter.loadData,
+                          onPressed: presenter?.loadData,
                           icon: const Icon(
                             Icons.refresh,
                             color: AppColors.darkBlue,
@@ -174,29 +176,35 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
                   ],
                 ),
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _books
-                      .map((book) => BookCard(book,
-                          onTap: () => presenter.viewDetails(book)))
-                      .toList(),
+              if (_isLoading)
+                const Center(
+                  child: CircularProgressIndicator(color: AppColors.baseColor),
+                )
+              else
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _books
+                        .map((book) => BookCard(book,
+                            onTap: () => presenter?.viewDetails(book)))
+                        .toList(),
+                  ),
                 ),
-              ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 30),
                 alignment: Alignment.center,
                 child: ElevatedButton(
+                  key: const Key('logoutbtn'),
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
                       backgroundColor: AppColors.baseColor,
                       fixedSize: const Size(150, 40)),
-                  onPressed: presenter.logout,
+                  onPressed: presenter?.logout,
                   child: Text(
                     'Cerrar sesión',
                     style: AppStyle.regularAskan17,

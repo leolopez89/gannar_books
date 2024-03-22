@@ -25,14 +25,10 @@ class GannarBooks extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
-        // '/details': (context) => DetailsPage(),
-        // '/search': (context) => SearchPage(),
+        // '/details': (context) => DetailsPage(book: null),
+        // '/search': (context) => SearchPage(query: ''),
       },
       initialRoute: isLogged ? '/' : '/login',
-      // home: Scaffold(
-      //   appBar: AppBar(title: const Text('Gannar Books App Bar')),
-      //   body: const Center(child: Text('Gannar Books', key: Key("title"))),
-      // ),
       theme: ThemeData(fontFamily: "Askan"),
     );
   }

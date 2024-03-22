@@ -60,7 +60,6 @@ class _HomeContentState extends State<DetailsContent>
 
     return Consumer<DetailsProvider>(
       builder: (context, provider, child) {
-        // if (_isLoading) return const Center(child: CircularProgressIndicator());
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +151,9 @@ class _HomeContentState extends State<DetailsContent>
                   ),
                 ),
               if (_isLoading)
-                const Center(child: CircularProgressIndicator())
+                const Center(
+                  child: CircularProgressIndicator(color: AppColors.baseColor),
+                )
               else ...[
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
