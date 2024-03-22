@@ -29,12 +29,16 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadData() async {
+  Future<void> loadLocalData() async {
     errors = [];
 
     final result = await usersRepository.getLoggedUser();
     result.fold((e) => errors.add(e.error), (u) => user = u);
     notifyListeners();
+  }
+
+  Future<void> loadData() async {
+    errors = [];
 
     final results = await booksRepository.getNewBooks();
     results.fold((e) => errors.add(e.error), (b) => books = b);

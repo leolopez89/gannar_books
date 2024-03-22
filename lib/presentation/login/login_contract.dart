@@ -1,7 +1,7 @@
 abstract class LoginContract {
-  bool isValidLogin();
+  bool verifyLoginData();
 
-  void onLoginSuccess();
+  void finishLogin();
 
-  void onLoginError(String message);
+  void showError(String message);
 }

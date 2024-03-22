@@ -121,7 +121,10 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
                                     children: options.map((e) {
                                       return ListTile(
                                         title: Text(e),
-                                        onTap: () => onSelected(e),
+                                        onTap: () {
+                                          onSelected(e);
+                                          presenter.updateSearch(e);
+                                        },
                                       );
                                     }).toList(),
                                   ),
@@ -153,8 +156,23 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 24, bottom: 16),
-                child: Text("Nuevas publicaciones",
-                    style: AppStyle.regularAskan30),
+                child: Row(
+                  children: [
+                    Text("Nuevas publicaciones",
+                        style: AppStyle.regularAskan30),
+                    if (_books.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: IconButton(
+                          onPressed: presenter.loadData,
+                          icon: const Icon(
+                            Icons.refresh,
+                            color: AppColors.darkBlue,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -200,9 +218,7 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
 
   @override
   void onTapBook(Book book) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => DetailsPage(book: book)),
-    );
+    Navigator.of(context).push(createScaleRoute(DetailsPage(book: book)));
   }
 
   @override
@@ -219,6 +235,9 @@ class _HomeContentState extends State<HomeContent> implements HomeContract {
       backgroundColor: Colors.redAccent,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:gannar_books/domain/models/book.dart';
 import 'package:gannar_books/presentation/home/home_contract.dart';
 import 'package:gannar_books/presentation/home/home_provider.dart';
+import 'package:gannar_books/utils/services/connectivity.dart';
 
 class HomePresenter {
   final HomeProvider homeProvider;
@@ -24,9 +25,16 @@ class HomePresenter {
   }
 
   Future<void> loadData() async {
-    await homeProvider.loadData();
+    await homeProvider.loadLocalData();
     if (homeProvider.errors.isEmpty) {
       view.showLoggedUser(homeProvider.user);
+    } else {
+      view.showErrors(homeProvider.errors);
+    }
+
+    if (!await checkConnection()) return;
+    await homeProvider.loadData();
+    if (homeProvider.errors.isEmpty) {
       view.showNewBooks(homeProvider.books.books.take(10).toList());
     } else {
       view.showErrors(homeProvider.errors);
@@ -34,6 +42,8 @@ class HomePresenter {
   }
 
   Future<void> search() async {
+    if (!await checkConnection()) return;
+
     if (homeProvider.search.trim().isEmpty) {
       view.showErrors(["Escribe algo para buscar"]);
     } else if (homeProvider.search.trim().length <= 2) {
@@ -44,7 +54,15 @@ class HomePresenter {
     }
   }
 
-  void viewDetails(Book book) {
+  void viewDetails(Book book) async {
+    if (!await checkConnection()) return;
+
     view.onTapBook(book);
+  }
+
+  Future<bool> checkConnection() async {
+    bool result = await hasConnection();
+    if (!result) view.showErrors(["No hay conexión. Intente más tarde"]);
+    return result;
   }
 }

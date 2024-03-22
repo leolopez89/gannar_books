@@ -59,7 +59,7 @@ class _HomeContentState extends State<SearchContent> implements SearchContract {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const SizedBox(height: 70),
+              const SizedBox(height: 40),
               Container(
                 padding: const EdgeInsets.only(left: 10, right: 24, bottom: 24),
                 child: Row(
@@ -115,9 +115,10 @@ class _HomeContentState extends State<SearchContent> implements SearchContract {
 
   @override
   void onTapBook(Book book) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => DetailsPage(book: book)),
-    );
+    Navigator.of(context).push(createScaleRoute(DetailsPage(book: book)));
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(builder: (context) => DetailsPage(book: book)),
+    // );
   }
 
   @override

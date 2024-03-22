@@ -134,7 +134,11 @@ class _HomeContentState extends State<DetailsContent>
                   Positioned(
                     right: 12,
                     bottom: 0,
-                    child: Image.network(_book.image, width: size.width * 0.5),
+                    child: Hero(
+                      tag: "image-${_book.isbn13}",
+                      child:
+                          Image.network(_book.image, width: size.width * 0.5),
+                    ),
                   ),
                 ],
               ),
@@ -200,7 +204,7 @@ class _HomeContentState extends State<DetailsContent>
                       InfoLine(title: "Publicado por:", value: _book.publisher),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 24, top: 4),
+                  padding: const EdgeInsets.only(left: 24, top: 4, bottom: 24),
                   child: InfoLine(title: "Idioma:", value: _book.language),
                 ),
               ],

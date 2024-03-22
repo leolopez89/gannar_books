@@ -70,7 +70,10 @@ class BookCardLarge extends StatelessWidget {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
             margin: const EdgeInsets.only(right: 40),
-            child: Image.network(book.image, width: size.width * 0.4),
+            child: Hero(
+              tag: "image-${book.isbn13}",
+              child: Image.network(book.image, width: size.width * 0.4),
+            ),
           ),
         ],
       ),

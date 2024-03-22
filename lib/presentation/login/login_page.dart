@@ -146,13 +146,13 @@ class _LoginContentState extends State<LoginContent> implements LoginContract {
   }
 
   @override
-  void onLoginSuccess() {
+  void finishLogin() {
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
   @override
-  void onLoginError(String error) {
+  void showError(String error) {
     final snackBar = SnackBar(
       content: Text(error),
       backgroundColor: Colors.redAccent,
@@ -161,5 +161,5 @@ class _LoginContentState extends State<LoginContent> implements LoginContract {
   }
 
   @override
-  bool isValidLogin() => _formKey.currentState?.validate() ?? false;
+  bool verifyLoginData() => _formKey.currentState?.validate() ?? false;
 }
